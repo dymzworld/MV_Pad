@@ -10,6 +10,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Thaana:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+  @font-face{
+    font-family:'Faruma';
+    src:url('fonts/Faruma.ttf') format('truetype');
+    font-display:swap;
+  }
   :root{
     --navy-950:#070f1a;
     --navy-900:#0b1729;
@@ -25,6 +30,7 @@
     --danger:#d9614f;
     --good:#5fb488;
     --radius:10px;
+    --gutter-w:30px;
   }
 
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
@@ -33,7 +39,7 @@
     margin:0; padding:0; height:100%;
     background:var(--navy-950);
     color:var(--text-hi);
-    font-family:'Noto Sans Thaana','Poppins',sans-serif;
+    font-family:'Faruma','Noto Sans Thaana','Poppins',sans-serif;
     overflow:hidden;
   }
 
@@ -87,7 +93,7 @@
     background:var(--navy-800);
     border:1px solid var(--steel-700);
     color:var(--text-hi);
-    font-family:'Noto Sans Thaana','JetBrains Mono',monospace;
+    font-family:'Faruma','Noto Sans Thaana','JetBrains Mono',monospace;
     font-size:13px;
     padding:6px 10px;
     border-radius:8px;
@@ -171,7 +177,7 @@
     background:transparent;
     border:none;
     color:var(--text-hi);
-    font-family:'Noto Sans Thaana','Poppins',sans-serif;
+    font-family:'Faruma','Noto Sans Thaana','Poppins',sans-serif;
     font-size:13.5px; font-weight:500;
     text-align:start;
     padding:11px 12px;
@@ -215,14 +221,14 @@
     text-align:center;
   }
   .modal-title{
-    font-family:'Noto Sans Thaana','JetBrains Mono',monospace;
+    font-family:'Faruma','Noto Sans Thaana','JetBrains Mono',monospace;
     font-weight:700;
     font-size:16px;
     color:var(--amber);
     margin-bottom:8px;
   }
   .modal-line{
-    font-family:'Noto Sans Thaana','JetBrains Mono',monospace;
+    font-family:'Faruma','Noto Sans Thaana','JetBrains Mono',monospace;
     font-size:12.5px;
     color:var(--text-mid);
     margin-bottom:18px;
@@ -235,7 +241,7 @@
   .modal-field-label{
     display:block;
     text-align:start;
-    font-family:'Noto Sans Thaana','JetBrains Mono',monospace;
+    font-family:'Faruma','Noto Sans Thaana','JetBrains Mono',monospace;
     font-size:10.5px;
     letter-spacing:.02em;
     color:var(--text-dim);
@@ -246,7 +252,7 @@
     background:var(--navy-800);
     border:1px solid var(--steel-600);
     color:var(--text-hi);
-    font-family:'Noto Sans Thaana','JetBrains Mono',monospace;
+    font-family:'Faruma','Noto Sans Thaana','JetBrains Mono',monospace;
     font-size:13px;
     padding:9px 10px;
     border-radius:8px;
@@ -319,24 +325,56 @@
   }
 
   /* ---------- editor ---------- */
-  #editor-wrap{ flex:1; min-height:0; position:relative; }
+  #editor-wrap{ flex:1; min-height:0; position:relative; overflow:hidden; }
   .CodeMirror{
     height:100% !important;
-    font-family:'Noto Sans Thaana','JetBrains Mono',monospace !important;
+    font-family:'Faruma','Noto Sans Thaana','JetBrains Mono',monospace !important;
     font-size:15px;
     line-height:1.8;
     background:var(--navy-950) !important;
     direction:rtl;
   }
-  .CodeMirror-gutters{
-    background:var(--navy-900) !important;
-    border-right:1px solid var(--steel-700) !important;
+  /* CodeMirror 5's gutter placement is hard-coded to the physical left —
+     the direction:'rtl' option only flips text *inside* each line (via a
+     "CodeMirror-rtl" class placed on the code div), it never repositions
+     the gutter itself. Its internal click/cursor math (posFromMouse etc.)
+     assumes that untouched left-docked layout, so forcing the real gutter
+     over to the right (margin/position overrides) desyncs that math and
+     silently breaks click-to-place-cursor. Instead: leave CodeMirror's own
+     gutter exactly where it computes it (hidden via visibility, still
+     reserving its layout width so nothing shifts), reserve matching space
+     on the right of the text with padding, and draw our own line-number
+     column there — driven by the real gutter's own (still-correct)
+     per-line positions, via syncGutterOverlay() below. */
+  .CodeMirror-gutters,
+  .CodeMirror-gutter-wrapper{
+    visibility:hidden;
   }
-  .CodeMirror-rtl .CodeMirror-gutters{
-    border-right:none !important;
-    border-left:1px solid var(--steel-700) !important;
+  .CodeMirror-rtl pre.CodeMirror-line,
+  .CodeMirror-rtl pre.CodeMirror-line-like{
+    padding:0 12px !important;
+    padding-right:calc(var(--gutter-w, 30px) + 12px) !important;
   }
-  .CodeMirror-linenumber{ color:var(--text-dim) !important; font-family:'JetBrains Mono',monospace !important; }
+  #cm-gutter-rtl{
+    position:absolute;
+    top:0; right:0;
+    width:var(--gutter-w, 30px);
+    pointer-events:none;
+    z-index:5;
+    background:var(--navy-900);
+    border-left:1px solid var(--steel-700);
+  }
+  .cm-gutter-rtl-num{
+    position:absolute;
+    right:0; width:100%;
+    box-sizing:border-box;
+    padding:0 5px 0 3px;
+    text-align:right;
+    color:var(--text-dim);
+    font-family:'JetBrains Mono',monospace;
+    font-size:15px;
+    white-space:nowrap;
+  }
   .CodeMirror-cursor{ border-left:2px solid var(--amber) !important; }
 
   .drop-hint{
@@ -381,7 +419,7 @@
     color:var(--good);
     opacity:0;
     transition:opacity .3s;
-    font-family:'Noto Sans Thaana','JetBrains Mono',monospace;
+    font-family:'Faruma','Noto Sans Thaana','JetBrains Mono',monospace;
   }
   footer .toast.show{ opacity:1; }
 
@@ -392,6 +430,7 @@
     .brand-name{ font-size:15px; }
     footer{ padding:8px 20px; }
     .CodeMirror{ font-size:15.5px; }
+    .cm-gutter-rtl-num{ font-size:15.5px; }
   }
 </style>
 </head>
@@ -599,6 +638,40 @@
     direction: 'rtl',
     rtlMoveVisually: true
   });
+
+  // CodeMirror always docks its gutter physically left, and its own
+  // click/cursor math depends on that being true, so it's left alone and
+  // hidden (see the .CodeMirror-gutters / #cm-gutter-rtl CSS above). This
+  // redraws the line numbers into a right-docked overlay, reading each
+  // number's live text and vertical position straight off CodeMirror's
+  // own (still-correct) gutter elements.
+  const cmRoot = cm.getWrapperElement();
+  const editorWrap = document.getElementById('editor-wrap');
+  const gutterOverlay = document.createElement('div');
+  gutterOverlay.id = 'cm-gutter-rtl';
+  editorWrap.appendChild(gutterOverlay);
+
+  function syncGutterOverlay(){
+    const w = cm.getGutterElement().offsetWidth;
+    if(w) cmRoot.style.setProperty('--gutter-w', w + 'px');
+    const wrapRect = editorWrap.getBoundingClientRect();
+    const frag = document.createDocumentFragment();
+    document.querySelectorAll('.CodeMirror-linenumber').forEach(el => {
+      if(el.closest('.CodeMirror-measure')) return;
+      const r = el.getBoundingClientRect();
+      const num = document.createElement('div');
+      num.className = 'cm-gutter-rtl-num';
+      num.style.top = (r.top - wrapRect.top) + 'px';
+      num.style.height = r.height + 'px';
+      num.style.lineHeight = r.height + 'px';
+      num.textContent = el.textContent;
+      frag.appendChild(num);
+    });
+    gutterOverlay.replaceChildren(frag);
+  }
+  cm.on('update', syncGutterOverlay);
+  cm.on('scroll', syncGutterOverlay);
+  syncGutterOverlay();
 
   const filenameInput = document.getElementById('filename');
   const modePill = document.getElementById('modePill');
