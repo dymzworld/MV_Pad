@@ -39,3 +39,1011 @@
 
   #app{
     display:flex;
+    flex-direction:column;
+    height:100vh;
+    height:100dvh;
+  }
+
+  /* ---------- Top bar ---------- */
+  header{
+    background:linear-gradient(180deg,var(--navy-900),var(--navy-950));
+    border-bottom:1px solid var(--steel-700);
+    padding:10px 12px 8px;
+    flex-shrink:0;
+  }
+  .brand-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:8px;
+  }
+  .brand-mark{
+    width:auto; height:26px;
+    padding:0 7px;
+    border-radius:6px;
+    background:var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700; font-size:12px;
+    letter-spacing:-.02em;
+    color:var(--navy-950);
+    flex-shrink:0;
+    direction:ltr;
+  }
+  .brand-name{
+    font-size:14px; font-weight:600; letter-spacing:.02em; color:var(--text-hi);
+  }
+  .dirty-dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--amber);
+    display:none;
+    margin-inline-start:2px;
+  }
+  .dirty-dot.show{ display:inline-block; }
+
+  #filename{
+    flex:1;
+    min-width:0;
+    background:var(--navy-800);
+    border:1px solid var(--steel-700);
+    color:var(--text-hi);
+    font-family:'Noto Sans Thaana','JetBrains Mono',monospace;
+    font-size:13px;
+    padding:6px 10px;
+    border-radius:8px;
+    outline:none;
+  }
+  #filename:focus{ border-color:var(--amber); }
+  #filename::placeholder{ color:var(--text-dim); }
+  #filename[readonly]{ cursor:default; }
+
+  /* ---------- hamburger ---------- */
+  .icon-btn{
+    flex-shrink:0;
+    width:34px; height:34px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--steel-700);
+    border:1px solid var(--steel-600);
+    border-radius:8px;
+    cursor:pointer;
+    color:var(--text-hi);
+    transition:background .15s, transform .1s;
+  }
+  .icon-btn:active{ transform:scale(.94); }
+  .icon-btn:hover{ background:var(--steel-600); }
+  .icon-btn svg{ width:18px; height:18px; }
+
+  /* ---------- slide-in menu ---------- */
+  .menu-overlay{
+    position:fixed; inset:0;
+    background:rgba(3,8,15,.55);
+    backdrop-filter:blur(1px);
+    z-index:60;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s ease;
+  }
+  .menu-overlay.open{ opacity:1; pointer-events:auto; }
+
+  .side-menu{
+    position:fixed;
+    top:0; right:0; bottom:0;
+    width:min(78vw, 300px);
+    background:var(--navy-900);
+    border-left:1px solid var(--steel-700);
+    box-shadow:-16px 0 40px rgba(0,0,0,.5);
+    z-index:61;
+    transform:translateX(100%);
+    transition:transform .22s ease;
+    display:flex;
+    flex-direction:column;
+    padding:16px 10px;
+    overflow-y:auto;
+  }
+  .side-menu.open{ transform:translateX(0); }
+
+  .side-menu-header{
+    display:flex; align-items:center; gap:10px;
+    padding:4px 10px 16px;
+    border-bottom:1px solid var(--steel-700);
+    margin-bottom:10px;
+  }
+  .side-menu-header .brand-mark{ height:24px; font-size:11px; }
+  .side-menu-header span{ font-size:13px; font-weight:600; color:var(--text-hi); }
+
+  .menu-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.08em;
+    color:var(--text-dim);
+    padding:14px 12px 6px;
+  }
+
+  .menu-divider{
+    height:1px;
+    background:var(--steel-700);
+    margin:8px 4px;
+  }
+
+  .menu-item{
+    display:flex; align-items:center; gap:12px;
+    width:100%;
+    background:transparent;
+    border:none;
+    color:var(--text-hi);
+    font-family:'Noto Sans Thaana','Poppins',sans-serif;
+    font-size:13.5px; font-weight:500;
+    text-align:start;
+    padding:11px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:background .15s;
+  }
+  .menu-item:hover, .menu-item:active{ background:var(--steel-700); }
+  .menu-item svg{ width:17px; height:17px; flex-shrink:0; color:var(--text-mid); }
+
+  .menu-item.sub{
+    padding-inline-start:14px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    justify-content:space-between;
+  }
+  .menu-item.sub .ext{ color:var(--amber); font-weight:600; }
+
+  .menu-item.primary{ color:var(--amber); }
+  .menu-item.primary svg{ color:var(--amber); }
+
+  /* ---------- about modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(3,8,15,.65);
+    z-index:80;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal-box{
+    background:var(--navy-900);
+    border:1px solid var(--steel-600);
+    border-radius:12px;
+    box-shadow:0 20px 50px rgba(0,0,0,.5);
+    padding:22px 20px;
+    width:100%;
+    max-width:280px;
+    text-align:center;
+  }
+  .modal-title{
+    font-family:'Noto Sans Thaana','JetBrains Mono',monospace;
+    font-weight:700;
+    font-size:16px;
+    color:var(--amber);
+    margin-bottom:8px;
+  }
+  .modal-line{
+    font-family:'Noto Sans Thaana','JetBrains Mono',monospace;
+    font-size:12.5px;
+    color:var(--text-mid);
+    margin-bottom:18px;
+  }
+  .modal-close{
+    justify-content:center;
+    border:1px solid var(--steel-600);
+  }
+
+  .modal-field-label{
+    display:block;
+    text-align:start;
+    font-family:'Noto Sans Thaana','JetBrains Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.02em;
+    color:var(--text-dim);
+    margin:12px 0 5px;
+  }
+  .modal-input{
+    width:100%;
+    background:var(--navy-800);
+    border:1px solid var(--steel-600);
+    color:var(--text-hi);
+    font-family:'Noto Sans Thaana','JetBrains Mono',monospace;
+    font-size:13px;
+    padding:9px 10px;
+    border-radius:8px;
+    outline:none;
+  }
+  .modal-input:focus{ border-color:var(--amber); }
+  select.modal-input{
+    appearance:none;
+    -webkit-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a9bccd' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>");
+    background-repeat:no-repeat;
+    background-position:left 10px center;
+    background-size:14px;
+    padding-left:30px;
+    direction:ltr;
+    text-align:right;
+  }
+  .modal-btn-row{
+    display:flex;
+    gap:8px;
+    margin-top:20px;
+  }
+  .modal-btn-row .menu-item{ flex:1; justify-content:center; }
+
+  .modal-box-wide{ max-width:320px; text-align:start; }
+  .modal-box-wide .modal-title{ text-align:start; }
+
+  .find-status-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:10px;
+  }
+  .find-counter{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    color:var(--text-mid);
+    direction:ltr;
+  }
+  .find-nav{ display:flex; gap:6px; }
+  .find-nav .icon-btn{ width:30px; height:30px; }
+  .find-nav .icon-btn svg{ width:15px; height:15px; }
+
+  .replace-row{ display:none; }
+  .replace-row.show{ display:block; }
+
+  /* Find/Replace is a floating panel, not a blocking modal — the editor
+     underneath stays fully clickable and selectable while it's open. */
+  #findOverlay{
+    background:transparent;
+    align-items:flex-start;
+    justify-content:flex-end;
+    padding:64px 12px 12px;
+    pointer-events:none;
+  }
+  #findOverlay .modal-box{ pointer-events:auto; }
+
+  /* ---------- search match highlights ---------- */
+  .cm-search-match{
+    background: rgba(242,169,59,.35);
+    border-radius:2px;
+  }
+  .cm-search-current{
+    background: var(--amber) !important;
+    border-radius:2px;
+    box-shadow:0 0 0 1px var(--amber-dim);
+  }
+  .cm-search-current, .cm-search-current *{
+    color: var(--navy-950) !important;
+  }
+
+  /* ---------- editor ---------- */
+  #editor-wrap{ flex:1; min-height:0; position:relative; }
+  .CodeMirror{
+    height:100% !important;
+    font-family:'Noto Sans Thaana','JetBrains Mono',monospace !important;
+    font-size:15px;
+    line-height:1.8;
+    background:var(--navy-950) !important;
+    direction:rtl;
+  }
+  .CodeMirror-gutters{
+    background:var(--navy-900) !important;
+    border-right:1px solid var(--steel-700) !important;
+  }
+  .CodeMirror-rtl .CodeMirror-gutters{
+    border-right:none !important;
+    border-left:1px solid var(--steel-700) !important;
+  }
+  .CodeMirror-linenumber{ color:var(--text-dim) !important; font-family:'JetBrains Mono',monospace !important; }
+  .CodeMirror-cursor{ border-left:2px solid var(--amber) !important; }
+
+  .drop-hint{
+    position:absolute; inset:0;
+    background:rgba(7,15,26,.85);
+    border:2px dashed var(--amber);
+    display:none;
+    align-items:center; justify-content:center;
+    font-size:14px; color:var(--amber);
+    font-weight:600;
+    z-index:40;
+    pointer-events:none;
+  }
+  .drop-hint.show{ display:flex; }
+
+  /* ---------- status bar ---------- */
+  footer{
+    flex-shrink:0;
+    background:var(--navy-900);
+    border-top:1px solid var(--steel-700);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:7px 12px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--text-mid);
+    gap:8px;
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+  footer .seg{ display:flex; gap:12px; align-items:center; }
+  footer .mode-pill{
+    background:var(--steel-700);
+    color:var(--amber);
+    padding:2px 8px;
+    border-radius:20px;
+    font-weight:600;
+    letter-spacing:.03em;
+  }
+  footer .toast{
+    color:var(--good);
+    opacity:0;
+    transition:opacity .3s;
+    font-family:'Noto Sans Thaana','JetBrains Mono',monospace;
+  }
+  footer .toast.show{ opacity:1; }
+
+  input[type="file"]{ display:none; }
+
+  @media (min-width:640px){
+    header{ padding:12px 20px 10px; }
+    .brand-name{ font-size:15px; }
+    footer{ padding:8px 20px; }
+    .CodeMirror{ font-size:15.5px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <header>
+    <div class="brand-row">
+      <button class="icon-btn" id="btnMenu" aria-label="މެނޫ ހުޅުވާ">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div class="brand-mark">Npad</div>
+      <div class="brand-name">ނޯޓްޕެޑް</div>
+      <span class="dirty-dot" id="dirtyDot"></span>
+      <input type="text" id="filename" placeholder="ނަމެއްނެތް" value="" spellcheck="false">
+    </div>
+  </header>
+
+  <div class="menu-overlay" id="menuOverlay"></div>
+  <nav class="side-menu" id="sideMenu">
+    <div class="side-menu-header">
+      <div class="brand-mark">Npad</div>
+      <span>ނޯޓްޕެޑް</span>
+    </div>
+
+    <div class="menu-label">ފައިލް</div>
+    <button class="menu-item" id="btnNew">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      އައު ފައިލެއް
+    </button>
+
+    <button class="menu-item" id="btnOpen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+      ފައިލެއް ހުޅުވާ
+    </button>
+    <input type="file" id="fileInput" accept=".txt,.html,.htm,.json,.csv,.py,.js,text/*">
+
+    <button class="menu-item" id="btnSaveAs">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
+      ނަންދީފައި ރައްކާކުރޭ
+    </button>
+
+    <div class="menu-divider"></div>
+    <div class="menu-label">އުނިއިތުރު</div>
+    <button class="menu-item" id="btnPastePlain">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 14h6M9 18h6M9 10h2"/></svg>
+      ސާދާ ޓެކްސްޓެއްގެ ގޮތުގައި ފޭސްޓްކުރޭ
+    </button>
+
+    <button class="menu-item" id="btnConvertCase">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 15l4-10 4 10M4 12h6"/><path d="M21 9v6M21 9c0-1.5-1.2-2.5-2.7-2.5S15.5 7.5 15.5 9s1.2 2.5 2.8 2.5 2.7 1 2.7 2.5-1.2 2.5-2.7 2.5-2.8-1-2.8-2.5"/></svg>
+      ކޭސް ބަދަލުކުރޭ
+    </button>
+
+    <div class="menu-divider"></div>
+    <div class="menu-label">ވަސީލަތް</div>
+    <button class="menu-item" id="btnFormat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+      JSON ފޯމެޓްކުރޭ
+    </button>
+
+    <button class="menu-item" id="btnFind">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      ހޯދާ
+    </button>
+
+    <button class="menu-item" id="btnReplace">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4l4 4-4 4M18 8H8a4 4 0 0 0-4 4M10 20l-4-4 4-4M6 16h10a4 4 0 0 0 4-4"/></svg>
+      ބަދަލުކުރޭ
+    </button>
+
+    <div class="menu-divider"></div>
+    <div class="menu-label">މައުލޫމާތު</div>
+    <button class="menu-item" id="btnAbout">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5M12 8h.01"/></svg>
+      މައުލޫމާތު
+    </button>
+  </nav>
+
+  <div class="modal-overlay" id="aboutOverlay">
+    <div class="modal-box">
+      <div class="modal-title">Npad v1.0</div>
+      <div class="modal-line">ބިލްޑް ވަގުތު: 12 July 2026, 2245hrs</div>
+      <button class="menu-item primary modal-close" id="btnCloseAbout">ބަންދުކުރޭ</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="saveAsOverlay">
+    <div class="modal-box">
+      <div class="modal-title">ނަންދީފައި ރައްކާކުރޭ</div>
+      <label class="modal-field-label" for="saveAsName">ފައިލްގެ ނަން</label>
+      <input type="text" id="saveAsName" class="modal-input" placeholder="ނަމެއްނެތް" spellcheck="false">
+      <label class="modal-field-label" for="saveAsType">ފައިލްގެ ބާވަތް</label>
+      <select id="saveAsType" class="modal-input">
+        <option value="txt|text/plain">.txt</option>
+        <option value="html|text/html">.html</option>
+        <option value="json|application/json">.json</option>
+        <option value="csv|text/csv">.csv</option>
+        <option value="py|text/x-python">.py</option>
+        <option value="js|text/javascript">.js</option>
+      </select>
+      <div class="modal-btn-row">
+        <button class="menu-item modal-close" id="btnCancelSaveAs">ބާތިލްކުރޭ</button>
+        <button class="menu-item primary modal-close" id="btnConfirmSaveAs">ރައްކާކުރޭ</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="caseOverlay">
+    <div class="modal-box">
+      <div class="modal-title">ކޭސް ބަދަލުކުރޭ</div>
+      <div class="modal-btn-row" style="flex-direction:column; margin-top:14px;">
+        <button class="menu-item" id="btnCaseUpper">ބޮޑު އަކުރު (Upper case)</button>
+        <button class="menu-item" id="btnCaseLower">ކުޑަ އަކުރު (Lower case)</button>
+        <button class="menu-item" id="btnCaseSentence">ޖުމްލަ ކޭސް (Sentence case)</button>
+        <button class="menu-item" id="btnCaseCapitalize">ކޮންމެ ބަހެއް ބޮޑުކުރުން</button>
+      </div>
+      <div class="modal-btn-row">
+        <button class="menu-item modal-close" id="btnCloseCase">ބާތިލްކުރޭ</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="findOverlay">
+    <div class="modal-box modal-box-wide">
+      <div class="modal-title" id="findModalTitle">ހޯދާ</div>
+
+      <label class="modal-field-label" for="findInput">ހޯދާނެ ބަސް</label>
+      <input type="text" id="findInput" class="modal-input" placeholder="ހޯދަން ބޭނުންވާ ޓެކްސްޓް" spellcheck="false">
+
+      <div class="find-status-row">
+        <span id="findCounter" class="find-counter">&nbsp;</span>
+        <div class="find-nav">
+          <button class="icon-btn" id="btnFindPrev" aria-label="ކުރީގެ މެޗް">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+          <button class="icon-btn" id="btnFindNext" aria-label="ދެން އޮތް މެޗް">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="replaceRow" class="replace-row">
+        <label class="modal-field-label" for="replaceInput">ބަދަލުކުރާނެ ބަސް</label>
+        <input type="text" id="replaceInput" class="modal-input" placeholder="ބަދަލުކުރާނެ ޓެކްސްޓް" spellcheck="false">
+        <div class="modal-btn-row">
+          <button class="menu-item" id="btnReplaceOne">ބަދަލުކުރޭ</button>
+          <button class="menu-item" id="btnReplaceAll">ހުރިހާ ތަނެއް ބަދަލުކުރޭ</button>
+        </div>
+      </div>
+
+      <div class="modal-btn-row">
+        <button class="menu-item modal-close" id="btnCloseFind">ބަންދުކުރޭ</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="editor-wrap">
+    <textarea id="editor"></textarea>
+    <div class="drop-hint" id="dropHint">ފައިލް ދޫކޮށްލާ ހުޅުވުމަށް</div>
+  </div>
+
+  <footer>
+    <div class="seg">
+      <span class="mode-pill" id="modePill">TXT</span>
+      <span id="posInfo">ލައިން 1, ކޮލަމް 1</span>
+    </div>
+    <div class="seg">
+      <span id="wordCount">0 ބަސް</span>
+      <span id="charCount">0 އަކުރު</span>
+      <span class="toast" id="toast">ރައްކާކުރެވިއްޖެ</span>
+    </div>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/search/searchcursor.min.js"></script>
+
+<script>
+(function(){
+  const EXT_MODE = {
+    txt:  { mode: 'text/plain', label: 'TXT' },
+    html: { mode: 'htmlmixed', label: 'HTML' },
+    htm:  { mode: 'htmlmixed', label: 'HTML' },
+    json: { mode: { name:'javascript', json:true }, label: 'JSON' },
+    csv:  { mode: 'text/plain', label: 'CSV' },
+    py:   { mode: 'python', label: 'PY' },
+    js:   { mode: 'javascript', label: 'JS' }
+  };
+  const MIME = { txt:'text/plain', html:'text/html', json:'application/json', csv:'text/csv', py:'text/x-python', js:'text/javascript' };
+
+  const cm = CodeMirror.fromTextArea(document.getElementById('editor'), {
+    lineNumbers: true,
+    theme: 'dracula',
+    mode: 'text/plain',
+    tabSize: 2,
+    indentUnit: 2,
+    lineWrapping: true,
+    viewportMargin: 500,
+    direction: 'rtl',
+    rtlMoveVisually: true
+  });
+
+  const filenameInput = document.getElementById('filename');
+  const modePill = document.getElementById('modePill');
+  const posInfo = document.getElementById('posInfo');
+  const wordCount = document.getElementById('wordCount');
+  const charCount = document.getElementById('charCount');
+  const dirtyDot = document.getElementById('dirtyDot');
+  const toast = document.getElementById('toast');
+  const dropHint = document.getElementById('dropHint');
+  const sideMenu = document.getElementById('sideMenu');
+  const menuOverlay = document.getElementById('menuOverlay');
+  const btnMenu = document.getElementById('btnMenu');
+
+  let dirty = false;
+  let lastSavedContent = '';
+
+  function openMenu(){
+    sideMenu.classList.add('open');
+    menuOverlay.classList.add('open');
+  }
+  function closeMenu(){
+    sideMenu.classList.remove('open');
+    menuOverlay.classList.remove('open');
+  }
+  btnMenu.addEventListener('click', openMenu);
+  menuOverlay.addEventListener('click', closeMenu);
+
+  function extOf(name){
+    const m = name.trim().match(/\.([a-z0-9]+)$/i);
+    return m ? m[1].toLowerCase() : 'txt';
+  }
+
+  function applyModeFromExt(ext){
+    const info = EXT_MODE[ext] || EXT_MODE.txt;
+    cm.setOption('mode', info.mode);
+    modePill.textContent = info.label;
+  }
+
+  function updateStats(){
+    const text = cm.getValue();
+    const words = text.trim().length ? text.trim().split(/\s+/).length : 0;
+    wordCount.textContent = words + ' ބަސް';
+    charCount.textContent = text.length + ' އަކުރު';
+    const cur = cm.getCursor();
+    posInfo.textContent = 'ލައިން ' + (cur.line+1) + ', ކޮލަމް ' + (cur.ch+1);
+  }
+
+  function setDirty(v){
+    dirty = v;
+    dirtyDot.classList.toggle('show', v);
+  }
+
+  function showToast(msg, isErr){
+    toast.textContent = msg;
+    toast.style.color = isErr ? 'var(--danger)' : 'var(--good)';
+    toast.classList.add('show');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(()=> toast.classList.remove('show'), 1800);
+  }
+
+  cm.on('change', ()=>{
+    updateStats();
+    setDirty(cm.getValue() !== lastSavedContent);
+  });
+  cm.on('cursorActivity', updateStats);
+
+  filenameInput.addEventListener('input', ()=>{
+    if(filenameInput.value.trim()) applyModeFromExt(extOf(filenameInput.value));
+  });
+
+  // ---------- New ----------
+  document.getElementById('btnNew').addEventListener('click', ()=>{
+    closeMenu();
+    if(dirty && !confirm('ރައްކާނުކުރާ ބަދަލުތައް ދޫކޮށްލާފައި އައު ފައިލެއް ފަށަންތަ؟')) return;
+    cm.setValue('');
+    filenameInput.value = '';
+    applyModeFromExt('txt');
+    lastSavedContent = '';
+    setDirty(false);
+    clearMarks();
+    searchMatches = [];
+    searchIndex = -1;
+    updateFindCounter();
+    cm.focus();
+  });
+
+  // ---------- Open ----------
+  const fileInput = document.getElementById('fileInput');
+  document.getElementById('btnOpen').addEventListener('click', ()=>{
+    closeMenu();
+    if(dirty && !confirm('ރައްކާނުކުރާ ބަދަލުތައް ދޫކޮށްލާފައި އައު ފައިލެއް ހުޅުވަންތަ؟')) return;
+    fileInput.click();
+  });
+  fileInput.addEventListener('change', (e)=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    loadFile(file);
+    fileInput.value = '';
+  });
+
+  function loadFile(file){
+    const reader = new FileReader();
+    reader.onload = (e)=>{
+      cm.setValue(e.target.result);
+      filenameInput.value = file.name;
+      applyModeFromExt(extOf(file.name));
+      lastSavedContent = cm.getValue();
+      setDirty(false);
+      showToast(file.name + ' ހުޅުވިއްޖެ');
+    };
+    reader.onerror = ()=> showToast('ފައިލް ކިޔޭގޮތެއް ނުވި', true);
+    reader.readAsText(file);
+  }
+
+  // drag & drop
+  const wrap = document.getElementById('editor-wrap');
+  ['dragenter','dragover'].forEach(ev=>{
+    wrap.addEventListener(ev, (e)=>{ e.preventDefault(); dropHint.classList.add('show'); });
+  });
+  ['dragleave','drop'].forEach(ev=>{
+    wrap.addEventListener(ev, (e)=>{ e.preventDefault(); dropHint.classList.remove('show'); });
+  });
+  wrap.addEventListener('drop', (e)=>{
+    const file = e.dataTransfer.files[0];
+    if(file) loadFile(file);
+  });
+
+  // ---------- Save as ----------
+  const saveAsOverlay = document.getElementById('saveAsOverlay');
+  const saveAsName = document.getElementById('saveAsName');
+  const saveAsType = document.getElementById('saveAsType');
+
+  function baseName(name){
+    return name.replace(/\.[a-z0-9]+$/i, '');
+  }
+
+  function openSaveAsModal(){
+    const current = filenameInput.value.trim();
+    saveAsName.value = current ? baseName(current) : 'untitled';
+    const currentExt = current ? extOf(current) : 'txt';
+    const match = Array.from(saveAsType.options).find(o => o.value.startsWith(currentExt + '|'));
+    if(match) saveAsType.value = match.value;
+    saveAsOverlay.classList.add('open');
+    setTimeout(()=>{ saveAsName.focus(); saveAsName.select(); }, 50);
+  }
+
+  document.getElementById('btnSaveAs').addEventListener('click', ()=>{
+    closeMenu();
+    openSaveAsModal();
+  });
+
+  document.getElementById('btnCancelSaveAs').addEventListener('click', ()=>{
+    saveAsOverlay.classList.remove('open');
+  });
+  saveAsOverlay.addEventListener('click', (e)=>{
+    if(e.target === saveAsOverlay) saveAsOverlay.classList.remove('open');
+  });
+
+  document.getElementById('btnConfirmSaveAs').addEventListener('click', confirmSaveAs);
+  saveAsName.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter'){ e.preventDefault(); confirmSaveAs(); }
+  });
+
+  function confirmSaveAs(){
+    const [ext, mime] = saveAsType.value.split('|');
+    const clean = saveAsName.value.trim() || 'untitled';
+    const name = baseName(clean) + '.' + ext;
+    saveAsOverlay.classList.remove('open');
+    doSave(name, ext, mime);
+  }
+
+  function doSave(name, ext, mime){
+    filenameInput.value = name;
+    applyModeFromExt(ext);
+
+    const content = cm.getValue();
+    const blob = new Blob([content], { type: mime + ';charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    lastSavedContent = content;
+    setDirty(false);
+    showToast(name + ' ރައްކާކުރެވިއްޖެ');
+  }
+
+  // Ctrl/Cmd+S -> quick-save using the existing filename; opens Save As if the file has no name yet
+  document.addEventListener('keydown', (e)=>{
+    if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's'){
+      e.preventDefault();
+      if(filenameInput.value.trim()){
+        const ext = extOf(filenameInput.value);
+        const mime = MIME[ext] || 'text/plain';
+        doSave(filenameInput.value.trim(), ext, mime);
+      } else {
+        openSaveAsModal();
+      }
+    }
+    if(e.key === 'Escape'){
+      closeMenu();
+      document.getElementById('aboutOverlay').classList.remove('open');
+      saveAsOverlay.classList.remove('open');
+      findOverlay.classList.remove('open');
+      caseOverlay.classList.remove('open');
+      clearMarks();
+    }
+  });
+
+  // ---------- Format JSON ----------
+  document.getElementById('btnFormat').addEventListener('click', ()=>{
+    closeMenu();
+    try{
+      const parsed = JSON.parse(cm.getValue());
+      cm.setValue(JSON.stringify(parsed, null, 2));
+      applyModeFromExt('json');
+      if(filenameInput.value.trim() && !/\.json$/i.test(filenameInput.value)){
+        filenameInput.value = baseName(filenameInput.value) + '.json';
+      }
+      showToast('JSON ފޯމެޓްކުރެވިއްޖެ');
+    }catch(err){
+      showToast('ރަނގަޅު JSON އެއް ނޫން: ' + err.message, true);
+    }
+  });
+
+  // ---------- Paste as plain text ----------
+  document.getElementById('btnPastePlain').addEventListener('click', async ()=>{
+    closeMenu();
+    if(!navigator.clipboard || !navigator.clipboard.readText){
+      showToast('ކްލިޕްބޯޑަށް ވަނުން ސަޕޯޓެއް ނުކުރޭ', true);
+      return;
+    }
+    try{
+      const text = await navigator.clipboard.readText();
+      if(!text){ showToast('ކްލިޕްބޯޑް ހުސް', true); return; }
+      cm.focus();
+      cm.replaceSelection(text, 'end');
+      updateStats();
+      setDirty(cm.getValue() !== lastSavedContent);
+      showToast('ސާދާ ޓެކްސްޓެއްގެ ގޮތުގައި ފޭސްޓްކުރެވިއްޖެ');
+    }catch(err){
+      showToast('ކްލިޕްބޯޑަށް ވަނުމުގެ ހުއްދަ ނެތް', true);
+    }
+  });
+
+  // ---------- Convert case ----------
+  const caseOverlay = document.getElementById('caseOverlay');
+
+  document.getElementById('btnConvertCase').addEventListener('click', ()=>{
+    closeMenu();
+    if(!cm.getSelection()){
+      showToast('ފުރަތަމަ ޓެކްސްޓް ހޮވާ', true);
+      return;
+    }
+    caseOverlay.classList.add('open');
+  });
+  document.getElementById('btnCloseCase').addEventListener('click', ()=>{
+    caseOverlay.classList.remove('open');
+  });
+  caseOverlay.addEventListener('click', (e)=>{
+    if(e.target === caseOverlay) caseOverlay.classList.remove('open');
+  });
+
+  function toSentenceCase(str){
+    const lower = str.toLowerCase();
+    return lower.replace(/(^\s*[a-z]|[.!?]\s+[a-z])/g, c => c.toUpperCase());
+  }
+  function toCapitalizedWords(str){
+    return str.toLowerCase().replace(/\b[a-z]/g, c => c.toUpperCase());
+  }
+
+  function applyCaseTransform(fn){
+    const sel = cm.getSelection();
+    if(!sel){ showToast('ފުރަތަމަ ޓެކްސްޓް ހޮވާ', true); caseOverlay.classList.remove('open'); return; }
+    cm.replaceSelection(fn(sel), 'around');
+    caseOverlay.classList.remove('open');
+    updateStats();
+    setDirty(cm.getValue() !== lastSavedContent);
+    showToast('ކޭސް ބަދަލުކުރެވިއްޖެ');
+  }
+
+  document.getElementById('btnCaseUpper').addEventListener('click', ()=> applyCaseTransform(s => s.toUpperCase()));
+  document.getElementById('btnCaseLower').addEventListener('click', ()=> applyCaseTransform(s => s.toLowerCase()));
+  document.getElementById('btnCaseSentence').addEventListener('click', ()=> applyCaseTransform(toSentenceCase));
+  document.getElementById('btnCaseCapitalize').addEventListener('click', ()=> applyCaseTransform(toCapitalizedWords));
+
+  // ---------- About ----------
+  const aboutOverlay = document.getElementById('aboutOverlay');
+  document.getElementById('btnAbout').addEventListener('click', ()=>{
+    closeMenu();
+    aboutOverlay.classList.add('open');
+  });
+  document.getElementById('btnCloseAbout').addEventListener('click', ()=>{
+    aboutOverlay.classList.remove('open');
+  });
+  aboutOverlay.addEventListener('click', (e)=>{
+    if(e.target === aboutOverlay) aboutOverlay.classList.remove('open');
+  });
+
+  // ---------- Find / Replace ----------
+  const findOverlay = document.getElementById('findOverlay');
+  const findModalTitle = document.getElementById('findModalTitle');
+  const findInput = document.getElementById('findInput');
+  const replaceInput = document.getElementById('replaceInput');
+  const replaceRow = document.getElementById('replaceRow');
+  const findCounter = document.getElementById('findCounter');
+
+  let searchMatches = [];
+  let searchIndex = -1;
+  let matchMarks = [];
+  let currentMark = null;
+
+  function clearMarks(){
+    matchMarks.forEach(m => m.clear());
+    matchMarks = [];
+    if(currentMark){ currentMark.clear(); currentMark = null; }
+  }
+
+  function computeMatches(term){
+    const results = [];
+    if(!term) return results;
+    const cursor = cm.getSearchCursor(term, {line:0, ch:0}, {caseFold:true});
+    while(cursor.findNext()){
+      results.push({ from: cursor.from(), to: cursor.to() });
+    }
+    return results;
+  }
+
+  function paintMarks(){
+    matchMarks.forEach(m => m.clear());
+    matchMarks = searchMatches.map(m => cm.markText(m.from, m.to, { className: 'cm-search-match' }));
+  }
+
+  function updateFindCounter(){
+    if(!findInput.value){ findCounter.innerHTML = '&nbsp;'; return; }
+    findCounter.textContent = searchMatches.length ? (searchIndex+1) + ' / ' + searchMatches.length : 'ދިމައެއް ނުފެނުނު';
+  }
+
+  function selectMatch(idx){
+    if(!searchMatches.length) return;
+    searchIndex = idx;
+    const m = searchMatches[idx];
+    if(currentMark){ currentMark.clear(); currentMark = null; }
+    currentMark = cm.markText(m.from, m.to, { className: 'cm-search-current' });
+    cm.setSelection(m.from, m.to);
+    cm.scrollIntoView(m.from, 80);
+    updateFindCounter();
+  }
+
+  function runSearch(keepCursorNear){
+    const term = findInput.value;
+    searchMatches = computeMatches(term);
+    paintMarks();
+    if(searchMatches.length){
+      let idx = 0;
+      if(keepCursorNear){
+        const cur = cm.getCursor();
+        const found = searchMatches.findIndex(m => CodeMirror.cmpPos(m.from, cur) >= 0);
+        if(found !== -1) idx = found;
+      }
+      selectMatch(idx);
+    } else {
+      searchIndex = -1;
+      if(currentMark){ currentMark.clear(); currentMark = null; }
+      updateFindCounter();
+    }
+  }
+
+  function openFindModal(mode){
+    const selected = cm.getSelection();
+    if(selected) findInput.value = selected;
+    findModalTitle.textContent = mode === 'replace' ? 'ބަދަލުކުރޭ' : 'ހޯދާ';
+    replaceRow.classList.toggle('show', mode === 'replace');
+    findOverlay.classList.add('open');
+    runSearch(true);
+    setTimeout(()=>{ findInput.focus(); findInput.select(); }, 50);
+  }
+
+  document.getElementById('btnFind').addEventListener('click', ()=>{
+    closeMenu();
+    openFindModal('find');
+  });
+  document.getElementById('btnReplace').addEventListener('click', ()=>{
+    closeMenu();
+    openFindModal('replace');
+  });
+  document.getElementById('btnCloseFind').addEventListener('click', ()=>{
+    findOverlay.classList.remove('open');
+    clearMarks();
+  });
+
+  findInput.addEventListener('input', ()=> runSearch(false));
+  findInput.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      if(searchMatches.length) selectMatch((searchIndex+1) % searchMatches.length);
+    }
+  });
+
+  document.getElementById('btnFindNext').addEventListener('click', ()=>{
+    if(searchMatches.length) selectMatch((searchIndex+1) % searchMatches.length);
+  });
+  document.getElementById('btnFindPrev').addEventListener('click', ()=>{
+    if(searchMatches.length) selectMatch((searchIndex-1+searchMatches.length) % searchMatches.length);
+  });
+
+  document.getElementById('btnReplaceOne').addEventListener('click', ()=>{
+    if(searchIndex === -1 || !searchMatches.length) return;
+    const m = searchMatches[searchIndex];
+    cm.replaceRange(replaceInput.value, m.from, m.to);
+    runSearch(true);
+  });
+
+  document.getElementById('btnReplaceAll').addEventListener('click', ()=>{
+    const term = findInput.value;
+    if(!term){ showToast('ހޯދާނެ ބަހެއް ޖަހާ', true); return; }
+    const all = computeMatches(term);
+    if(!all.length){ showToast('އެއްވެސް މެޗެއް ނުފެނުނު', true); return; }
+    const replacement = replaceInput.value;
+    cm.operation(()=>{
+      for(let i = all.length - 1; i >= 0; i--){
+        cm.replaceRange(replacement, all[i].from, all[i].to);
+      }
+    });
+    showToast(all.length + ' ތަނެއް ބަދަލުކުރެވިއްޖެ');
+    clearMarks();
+    searchMatches = [];
+    searchIndex = -1;
+    updateFindCounter();
+  });
+
+  // warn on unload if dirty
+  window.addEventListener('beforeunload', (e)=>{
+    if(dirty){ e.preventDefault(); e.returnValue=''; }
+  });
+
+  // init
+  applyModeFromExt('txt');
+  updateStats();
+  cm.focus();
+})();
+</script>
+</body>
+</html>
